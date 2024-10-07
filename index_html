@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desimal ke Pecahan</title>
+    <script>
+        function desimalKePecahan() {
+            const desimal = parseFloat(document.getElementById('desimal').value);
+            const tolerance = 1.0E-6; // Toleransi untuk kesalahan pembulatan
+
+            let numerator = 1;
+            let denominator = 1;
+
+            // Menghitung pecahan
+            let fraction = desimal;
+            while (Math.abs(fraction - Math.round(fraction)) > tolerance) {
+                fraction *= 10;
+                denominator *= 10;
+                numerator = Math.round(fraction);
+            }
+
+            // Menyederhanakan pecahan
+            function gcd(a, b) {
+                return b === 0 ? a : gcd(b, a % b);
+            }
+
+            const commonDivisor = gcd(numerator, denominator);
+            numerator /= commonDivisor;
+            denominator /= commonDivisor;
+
+            document.getElementById('hasil').innerText = `${numerator}/${denominator}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Konversi Desimal ke Pecahan</h1>
+    <label for="desimal">Masukkan angka desimal:</label>
+    <input type="number" id="desimal" step="any">
+    <button onclick="desimalKePecahan()">Konversi</button>
+    <p>Hasil pecahan: <span id="hasil"></span></p>
+</body>
+</html>
